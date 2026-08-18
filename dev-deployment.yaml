@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    app: my-app
+    type: frontend
+  namespace: dev
+spec:
+  template:
+    metadata:
+      labels:
+        app: my-app
+        type: frontend
+    spec:
+      containers:
+        - name: my-container
+          image: nginx:1.27.0
+          env:
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: password
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: secret-volume
+              mountPath: /etc/secret
+              readOnly: true
+            - name: web-index-html
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: index.html
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: my-secret
+        - name: web-index-html
+          configMap:
+            name: web-index-html
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+      type: frontend
