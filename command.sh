@@ -1,4 +1,5 @@
 #!/bin/bash
+kubectl apply -f dev-namespace.yaml
 kubectl apply -f secret.yaml
 kubectl apply -f web-config-cm.yaml
 kubectl apply -f dev-deployment.yaml
