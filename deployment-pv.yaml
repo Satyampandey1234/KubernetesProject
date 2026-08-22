@@ -20,6 +20,9 @@ spec:
           volumeMounts:
             - name: my-storage
               mountPath: /usr/share/nginx/html
+            - name: web-index
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: index.html
       volumes:
         - name: my-storage
           persistentVolumeClaim:
