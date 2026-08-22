@@ -17,13 +17,20 @@ spec:
           image: nginx:latest
           ports:
             - containerPort: 80
+
           volumeMounts:
             - name: my-storage
-              mountPath: /usr/share/nginx/html
-            - name: web-index
+              mountPath: /data
+
+            - name: web-index-html
               mountPath: /usr/share/nginx/html/index.html
               subPath: index.html
+
       volumes:
         - name: my-storage
           persistentVolumeClaim:
             claimName: my-pvc
+
+        - name: web-index-html
+          configMap:
+            name: web-index-html
