@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pv-test
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pv-test
+  template:
+    metadata:
+      labels:
+        app: pv-test
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: my-storage
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: my-storage
+          persistentVolumeClaim:
+            claimName: my-pvc
