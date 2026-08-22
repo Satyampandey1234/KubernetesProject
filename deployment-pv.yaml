@@ -22,7 +22,7 @@ spec:
             - name: my-storage
               mountPath: /data
 
-            - name: web-index-html
+            - name: web-index
               mountPath: /usr/share/nginx/html/index.html
               subPath: index.html
 
